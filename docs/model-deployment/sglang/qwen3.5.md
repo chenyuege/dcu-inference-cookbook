@@ -47,6 +47,65 @@ python -m sglang.launch_server \
     --chunked-prefill-size -1
 ```
 
+<<<<<<< HEAD
+=======
+### Qwen3.5-35B-A3B（2卡）
+
+```bash
+export SGLANG_ENABLE_SPEC_V2=1
+export SGLANG_USE_FUSED_TOPK_SOFTMAX=1
+export SGLANG_USE_LIGHTOP=1
+export SGLANG_USE_CAUSAL_CONV1D=1
+export SGLANG_USE_AITER_LINEAR_ATTN=1
+export SGLANG_USE_CUDA_IPC_TRANSPORT=1
+sglang serve --model-path Qwen/Qwen3.5-35B-A3B \
+    --attention-backend fa3 \
+    --mm-attention-backend fa3 \
+    --speculative-algorithm EAGLE \
+    --enable-piecewise-cuda-graph \
+    --speculative-num-steps 3 \
+    --speculative-eagle-topk 1 \
+    --speculative-num-draft-tokens 4 \
+    --tp-size 2 --pp-size 1 \
+    --page-size 64  \
+    --mem-fraction-static 0.7 \
+    --mamba-scheduler-strategy extra_buffer \
+    --kv-cache-dtype fp8_e4m3  \  
+    --chunked-prefill-size -1 
+```
+
+>NMZ 卡使用 fp8_e4m3，非 NMZ 卡使用 fp8_e5m2，请按照使用硬件情况进行配置。
+
+### Qwen3.5-35B-A3B-Channel-FP8
+
+>此模型为Channel-wise FP8量化模型。
+
+```bash
+export SGLANG_USE_LIGHTOP=1
+export SGLANG_USE_FP8_W8A8_MOE=1
+export SGLANG_USE_FUSED_TOPK_SOFTMAX=1
+export SGLANG_USE_CAUSAL_CONV1D=1
+export SGLANG_USE_CUDA_IPC_TRANSPORT=1
+export SGLANG_USE_AITER_LINEAR_ATTN=1
+export SGLANG_ENABLE_SPEC_V2=1
+export SGLANG_USE_MODELSCOPE=1
+sglang serve --model-path  hygon/Qwen3.5-35B-A3B-Channel-FP8 \
+    --attention-backend fa3 \
+    --mm-attention-backend fa3 \
+    --speculative-algorithm EAGLE \
+    --enable-piecewise-cuda-graph \
+    --speculative-num-steps 3 \
+    --speculative-eagle-topk 1 \
+    --speculative-num-draft-tokens 4 \
+    --tp-size 2 --pp-size 1 \
+    --page-size 64  \
+    --mem-fraction-static 0.7 \
+    --chunked-prefill-size -1 \
+    --kv-cache-dtype fp8_e4m3  \
+    --mamba-scheduler-strategy extra_buffer
+```
+
+>>>>>>> 6cc5153 ([bugfix]fix启动脚本中的不规范问题)
 ### Qwen3.5-72B（四卡）
 
 ```bash
