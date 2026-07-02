@@ -65,7 +65,6 @@ sglang serve --model-path Qwen/Qwen3.5-27B \
     --page-size 64 \
     --pp-size 1 \
     --mem-fraction-static 0.8 \
-    --kv-cache-dtype fp8_e5m2 \
     --chunked-prefill-size 8192 \
     --cuda-graph-max-bs 256 \
     --max-prefill-tokens 45000 \
